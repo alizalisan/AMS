@@ -100,6 +100,7 @@ int main(int argc, char **argv)
   TypeValue avg = 0.5;
   TypeValue stdDev = 0.2;
   bool reqDB = false;
+  int repeats = 1;
 
 #ifdef __ENABLE_DB__
   reqDB = true;
@@ -197,6 +198,9 @@ int main(int argc, char **argv)
                  "\t 'mean' Uncertainty is computed in comparison against the mean distance of k-nearest neighbors\n"
                  "\t 'max': Uncertainty is computed in comparison with the k'st cluster \n"
                  "\t 'deltauq': Uncertainty through DUQ (not supported)\n");
+
+
+  args.AddOption(&repeats, "-rp", "--repeats", "Number of repeats to perform on physics eval");
 
   args.AddOption(
       &verbose, "-v", "--verbose", "-qu", "--quiet", "Print extra stuff");
@@ -393,7 +397,7 @@ int main(int argc, char **argv)
   std::vector<EOS *> eoses(num_mats, nullptr);
   for (int mat_idx = 0; mat_idx < num_mats; ++mat_idx) {
     if (eos_name == std::string("ideal_gas")) {
-      eoses[mat_idx] = new IdealGas(1.6, 1.4);
+      eoses[mat_idx] = new IdealGas(1.6, 1.4, repeats);
     } else if (eos_name == std::string("constant_host")) {
       eoses[mat_idx] = new ConstantEOSOnHost(alloc_name_host.c_str(), 1.0);
     } else {
