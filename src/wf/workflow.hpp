@@ -95,6 +95,7 @@ class AMSWorkflow
    * @param[in] outputs vector to 1-D vectors storing num_elements
    * items to be stored in the database
    */
+PERFFASPECT()
   void Store(size_t num_elements,
              std::vector<FPTypeValue *> &inputs,
              std::vector<FPTypeValue *> &outputs)
@@ -283,6 +284,7 @@ public:
    * This transformation can exploit the parallel nature of all the required
    * steps.
    */
+PERFFASPECT()
   void evaluate(void *probDescr,
                 const int totalElements,
                 const FPTypeValue **inputs,
