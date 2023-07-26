@@ -21,11 +21,8 @@
 
 // this macro completely bypasses all AMS functionality
 // this allows us to check how easy is it to test ams
-#define USE_AMS
 
-#ifdef USE_AMS
 #include "AMS.h"
-#endif
 
 using TypeValue = double;
 using mfem::ForallWrap;
@@ -144,6 +141,12 @@ int main(int argc, char **argv)
                  "--do-not-pack-sparse",
                  "pack sparse material data before evals (cpu only)");
 
+  args.AddOption(&repeats, "-rp", "--repeats", "Number of repeats to perform on physics eval");
+
+  args.AddOption(
+      &verbose, "-v", "--verbose", "-qu", "--quiet", "Print extra stuff");
+
+#ifdef USE_AMS
   args.AddOption(&imbalance,
                  "-i",
                  "--with-imbalance",
@@ -198,12 +201,8 @@ int main(int argc, char **argv)
                  "\t 'mean' Uncertainty is computed in comparison against the mean distance of k-nearest neighbors\n"
                  "\t 'max': Uncertainty is computed in comparison with the k'st cluster \n"
                  "\t 'deltauq': Uncertainty through DUQ (not supported)\n");
+#endif
 
-
-  args.AddOption(&repeats, "-rp", "--repeats", "Number of repeats to perform on physics eval");
-
-  args.AddOption(
-      &verbose, "-v", "--verbose", "-qu", "--quiet", "Print extra stuff");
 
   // -------------------------------------------------------------------------
   // parse arguments
