@@ -66,7 +66,8 @@ typedef enum {
 typedef struct ams_conf {
   const AMSExecPolicy ePolicy;
   const AMSDType dType;
-  const AMSResourceType device;
+  const AMSResourceType physics_device;
+  const AMSResourceType ml_device;
   const AMSDBType dbType;
   AMSPhysicFn cBack;
   char *SPath;

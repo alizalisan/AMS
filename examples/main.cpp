@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     std::cout.setstate(std::ios::failbit);
   }
 
-  const char *device_name = "cpu";
+  const char *device_name = "cpu_cpu";
   const char *eos_name = "ideal_gas";
   const char *model_path = "";
   const char *hdcache_path = "";
@@ -109,7 +109,7 @@ int main(int argc, char **argv)
   // setup command line parser
   // -------------------------------------------------------------------------
   mfem::OptionsParser args(argc, argv);
-  args.AddOption(&device_name, "-d", "--device", "Device config string");
+  args.AddOption(&device_name, "-d", "--device", "device(physics)_device(model), for example: cpu_gpu means execute physics on the cpu and the model on gpu");
 
   // surrogate model
   args.AddOption(&model_path, "-S", "--surrogate", "Path to surrogate model");
@@ -260,7 +260,9 @@ int main(int argc, char **argv)
   CALIPER(mgr.start();)
   CALIPER(CALI_MARK_BEGIN("Setup");)
 
-  const bool use_device = std::strcmp(device_name, "cpu") != 0;
+  const bool physics_use_device = ((std::strcmp(device_name, "gpu_cpu") == 0) || std::strcmp(device_name, "gpu_gpu") == 0);
+  const bool ml_use_device = ((std::strcmp(device_name, "gpu_cpu") == 0) || std::strcmp(device_name, "gpu_gpu") == 0);
+
   AMSDBType dbType = AMSDBType::None;
   if (std::strcmp(db_type, "csv") == 0) {
     dbType = AMSDBType::CSV;
@@ -308,9 +310,12 @@ int main(int argc, char **argv)
   // setup data allocators
   // -------------------------------------------------------------------------
   AMSSetupAllocator(AMSResourceType::HOST);
-  if (use_device) {
+  if ( physics_use_device || ml_use_device ){
     AMSSetupAllocator(AMSResourceType::DEVICE);
     AMSSetupAllocator(AMSResourceType::PINNED);
+  }
+
+  if (physics_use_device) {
     AMSSetDefaultAllocator(AMSResourceType::DEVICE);
   } else {
     AMSSetDefaultAllocator(AMSResourceType::HOST);
@@ -326,7 +331,7 @@ int main(int argc, char **argv)
       AMSGetAllocatorName(AMSResourceType::DEVICE));
 
   mfem::MemoryManager::SetUmpireHostAllocatorName(alloc_name_host.c_str());
-  if (use_device) {
+  if (physics_use_device) {
     mfem::MemoryManager::SetUmpireDeviceAllocatorName(
         alloc_name_device.c_str());
   }
@@ -424,14 +429,19 @@ int main(int argc, char **argv)
 
   db_path = (strlen(db_config) > 0) ? db_config : nullptr;
 
-  AMSResourceType ams_device = AMSResourceType::HOST;
-  if (use_device) ams_device = AMSResourceType::DEVICE;
+  AMSResourceType ams_physics_device = AMSResourceType::HOST;
+  if (physics_use_device) ams_physics_device = AMSResourceType::DEVICE;
+
+  AMSResourceType ams_ml_device = AMSResourceType::HOST;
+  if (ml_use_device) ams_ml_device = AMSResourceType::DEVICE;
+
   AMSExecPolicy ams_loadBalance = AMSExecPolicy::UBALANCED;
   if ( lbalance ) ams_loadBalance = AMSExecPolicy::BALANCED;
 
   AMSConfig amsConf = {ams_loadBalance,
                        AMSDType::Double,
-                       ams_device,
+                       ams_physics_device,
+                       ams_ml_device,
                        dbType,
                        callBack,
                        (char *)surrogate_path,

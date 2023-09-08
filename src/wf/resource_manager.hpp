@@ -214,10 +214,11 @@ PERFFASPECT()
    *  @return void.
    */
   template <typename T>
-  static void deallocate(std::vector<T*>& dPtr)
+  static void deallocate(std::vector<T*>& dPtr,
+                               AMSResourceType dev)
   {
     for (auto* I : dPtr)
-      deallocate(I);
+      deallocate(I, dev);
   }
   //! ------------------------------------------------------------------------
 };
