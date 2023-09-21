@@ -230,6 +230,7 @@ public:
   }
 
 
+PERFFASPECT()
   void ml_step(std::vector<const FPTypeValue*>& Inputs,
                std::vector<FPTypeValue*>& Outputs,
                int totalElements,
