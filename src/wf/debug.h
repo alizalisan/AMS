@@ -49,14 +49,16 @@ inline uint32_t getVerbosityLevel() { return getInfoLevelInternal().load() | AMS
 #define GETNAME(name) GETNAME2(name)
 
 #define AMSPRINTID(id)                                                        \
-  do {                                                                        \
-    fprintf(stderr, "[ " GETNAME(id) " ] ");                                   \
-  } while (0);
+//  do {                                                                        \
+    // We can't use fprintf with std::string                                                                       
+    // fprintf(stderr, "[ " GETNAME(id) " ] ");                                   
+//  } while (0);
 
 #define AMSPRINTMESSAGE(...)                                                  \
-  do {                                                                        \
-    fprintf(stderr, __VA_ARGS__);                                             \
-  } while(0);
+//  do { 
+    // We can't use fprintf with std::string                                                                       
+    // fprintf(stderr, __VA_ARGS__);                                          
+//  } while(0);
 
 #define AMSPRINT(id, condition, vl, color, ...)                               \
   if( condition && (getVerbosityLevel() & vl) ){                              \

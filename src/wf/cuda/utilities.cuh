@@ -40,11 +40,14 @@ __device__ __inline__ int pow2i(int e) {
 inline void __cudaSafeCall(cudaError err, const char* file, const int line) {
 #ifdef CUDA_ERROR_CHECK
     if (cudaSuccess != err) {
-        fprintf(stderr, "cudaSafeCall() failed at %s:%i : %s\n", file, line,
-                cudaGetErrorString(err));
 
-        fprintf(stdout, "cudaSafeCall() failed at %s:%i : %s\n", file, line,
-                cudaGetErrorString(err));
+    // We can't use fprintf with std::string                                                                       
+    //    fprintf(stderr, "cudaSafeCall() failed at %s:%i : %s\n", file, line,
+    //            cudaGetErrorString(err));
+
+    // We can't use fprintf with std::string                                                                       
+    //    fprintf(stdout, "cudaSafeCall() failed at %s:%i : %s\n", file, line,
+    //           cudaGetErrorString(err));
         exit(-1);
     }
 #endif
