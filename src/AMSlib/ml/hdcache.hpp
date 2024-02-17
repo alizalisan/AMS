@@ -282,7 +282,6 @@ public:
   //! add points to the faiss cache
   //! -----------------------------------------------------------------------
   //! add the data that comes as linearized features
-  PERFFASPECT()
   void add(const size_t ndata, const size_t d, TypeInValue *data)
   {
     DBG(UQModule, "Add %ld %ld points to HDCache", ndata, d);
@@ -295,7 +294,6 @@ public:
   }
 
   //! add the data that comes as separate features (a vector of pointers)
-  PERFFASPECT()
   void add(const size_t ndata, const std::vector<TypeInValue *> &inputs)
   {
     if (inputs.size() != m_dim)
@@ -410,7 +408,6 @@ private:
   //! add points to index when  (data type = TypeValue)
   template <typename T,
             std::enable_if_t<std::is_same<TypeValue, T>::value> * = nullptr>
-  PERFFASPECT()
   inline void _add(const size_t ndata, const T *data)
   {
     m_index->add(ndata, data);
@@ -419,7 +416,6 @@ private:
   //! add points to index when (data type != TypeValue)
   template <typename T,
             std::enable_if_t<!std::is_same<TypeValue, T>::value> * = nullptr>
-  PERFFASPECT()
   inline void _add(const size_t ndata, const T *data)
   {
     TypeValue *vdata =
@@ -545,13 +541,11 @@ private:
   inline uint8_t _dim() const { return 0; }
 
   template <typename T>
-  PERFFASPECT()
   inline void _add(const size_t, const T *)
   {
   }
 
   template <typename T>
-  PERFFASPECT()
   inline void _train(const size_t, const T *)
   {
   }

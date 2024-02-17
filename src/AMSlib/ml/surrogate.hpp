@@ -52,7 +52,6 @@ private:
   // -------------------------------------------------------------------------
   // conversion to and from torch
   // -------------------------------------------------------------------------
-  PERFFASPECT()
   inline at::Tensor arrayToTensor(long numRows,
                                   long numCols,
                                   TypeInValue** array)
@@ -67,7 +66,6 @@ private:
     return tensor;
   }
 
-  PERFFASPECT()
   inline at::Tensor arrayToTensor(long numRows,
                                   long numCols,
                                   const TypeInValue** array)
@@ -82,7 +80,6 @@ private:
     return tensor;
   }
 
-  PERFFASPECT()
   inline void tensorToArray(at::Tensor tensor,
                             long numRows,
                             long numCols,
@@ -106,7 +103,6 @@ private:
     }
   }
 
-  PERFFASPECT()
   inline void tensorToHostArray(at::Tensor tensor,
                                 long numRows,
                                 long numCols,
