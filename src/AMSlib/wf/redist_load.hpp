@@ -114,7 +114,6 @@ private:
    * It initializes the 'dataElements', 'displs' on the root node and the localLoad, balancedLoad
    * across all ranks.
   */
-  PERFFASPECT()
   void init(int numIn, int numOut, AMSResourceType resource)
   {
     // We need to store information
@@ -209,7 +208,6 @@ private:
  *
  *  \return void.
  */
-  PERFFASPECT()
   void distribute(FPTypeValue *src,
                   FPTypeValue *dest,
                   FPTypeValue *buffer,
@@ -255,7 +253,6 @@ private:
  *
  *  \return void.
  */
-  PERFFASPECT()
   void distributeV(std::vector<FPTypeValue *> &src,
                    std::vector<FPTypeValue *> &dest,
                    int *gNElems,

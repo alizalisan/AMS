@@ -314,7 +314,6 @@ public:
   //! train a faiss cache
   //! -----------------------------------------------------------------------
   //! train on data that comes as linearized features
-  PERFFASPECT()
   void train(const size_t ndata, const size_t d, TypeInValue *data)
   {
     DBG(UQModule, "Add %ld %ld points to HDCache", ndata, d);
@@ -328,7 +327,6 @@ public:
   }
 
   //! train on data that comes separate features (a vector of pointers)
-  PERFFASPECT()
   void train(const size_t ndata, const std::vector<TypeInValue *> &inputs)
   {
     TypeValue *lin_data =
@@ -428,7 +426,6 @@ private:
   //! train an index when (data type = TypeValue)
   template <typename T,
             std::enable_if_t<std::is_same<TypeValue, T>::value> * = nullptr>
-  PERFFASPECT()
   inline void _train(const size_t ndata, const T *data)
   {
 
@@ -448,7 +445,6 @@ private:
   //! train an index when (data type != TypeValue)
   template <typename T,
             std::enable_if_t<!std::is_same<TypeValue, T>::value> * = nullptr>
-  PERFFASPECT()
   inline void _train(const size_t ndata, const T *data)
   {
     TypeValue *vdata =

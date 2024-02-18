@@ -129,7 +129,6 @@ private:
   // -------------------------------------------------------------------------
   // loading a surrogate model!
   // -------------------------------------------------------------------------
-  PERFFASPECT()
   void _load_torch(const std::string& model_path,
                    c10::Device&& device,
                    at::ScalarType dType)
