@@ -133,6 +133,7 @@ public:
    * C-vector is_same resident in the same device as the input feature pointers.
    */
   template <typename TypeInValue>
+PERFFASPECT()
   static inline TypeValue* linearize_features(
       AMSResourceType resource,
       const size_t n,

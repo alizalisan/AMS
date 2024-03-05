@@ -23,6 +23,7 @@ namespace ams
 {
 namespace Device
 {
+PERFFASPECT()
 void computePredicate(float *data,
                       bool *predicate,
                       size_t nData,
@@ -36,6 +37,7 @@ void computePredicate(float *data,
 #endif
 }
 
+PERFFASPECT()
 void computePredicateDeltaUQ()
 {
   THROW(std::runtime_error,
@@ -43,6 +45,7 @@ void computePredicateDeltaUQ()
 }
 
 template <typename TypeInValue, typename TypeOutValue>
+PERFFASPECT()
 void linearize(TypeOutValue *output,
                const TypeInValue *const *inputs,
                size_t dims,
@@ -129,6 +132,7 @@ int unpack(bool cond,
 }
 
 template <typename TypeValue>
+PERFFASPECT()
 void rand_init(bool *predicate, const size_t n, TypeValue threshold)
 {
 #ifdef __ENABLE_CUDA__
@@ -153,6 +157,7 @@ void deviceCheckErrors(const char *file, const int line)
 
 #include <curand.h>
 #include <curand_kernel.h>
+PERFFASPECT()
 __global__ void random_uq_device(bool *uq_flags,
                                  int ndata,
                                  double acceptable_error)
@@ -178,43 +183,51 @@ __global__ void random_uq_device(bool *uq_flags,
 
 
 #include <cuda_runtime.h>
+PERFFASPECT()
 inline void DtoDMemcpy(void *dest, void *src, size_t nBytes)
 {
   cudaMemcpy(dest, src, nBytes, cudaMemcpyDeviceToDevice);
 }
 
+PERFFASPECT()
 inline void HtoHMemcpy(void *dest, void *src, size_t nBytes)
 {
   std::memcpy(dest, src, nBytes);
 }
 
+PERFFASPECT()
 inline void HtoDMemcpy(void *dest, void *src, size_t nBytes)
 {
   cudaMemcpy(dest, src, nBytes, cudaMemcpyHostToDevice);
 };
 
+PERFFASPECT()
 inline void DtoHMemcpy(void *dest, void *src, size_t nBytes)
 {
   cudaMemcpy(dest, src, nBytes, cudaMemcpyDeviceToHost);
 }
 #else
+PERFFASPECT()
 inline void DtoDMemcpy(void *dest, void *src, size_t nBytes)
 {
   std::cerr << "DtoD Memcpy Not Enabled" << std::endl;
   exit(-1);
 }
 
+PERFFASPECT()
 inline void HtoHMemcpy(void *dest, void *src, size_t nBytes)
 {
   std::memcpy(dest, src, nBytes);
 }
 
+PERFFASPECT()
 inline void HtoDMemcpy(void *dest, void *src, size_t nBytes)
 {
   std::cerr << "HtoD Memcpy Not Enabled" << std::endl;
   exit(-1);
 };
 
+PERFFASPECT()
 inline void DtoHMemcpy(void *dest, void *src, size_t nBytes)
 {
   std::cerr << "DtoH Memcpy Not Enabled" << std::endl;

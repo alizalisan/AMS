@@ -177,6 +177,7 @@ private:
   /** @brief Computes the number of elements every rank will receive after balancing.
    *  @returns the number of elements computed by this rank.
    **/
+  PERFFASPECT()
   int computeBalanceLoad()
   {
     int rc = MPI_Bcast(&globalLoad, 1, MPI_INT, root, Comm);

@@ -80,6 +80,7 @@ public:
    *  @return Pointer to allocated elements.
    */
   template <typename TypeInValue>
+  PERFFASPECT()
   static TypeInValue* allocate(size_t nvalues, AMSResourceType dev)
   {
     return static_cast<TypeInValue*>(
@@ -93,6 +94,7 @@ public:
    *  @return void.
    */
   template <typename TypeInValue>
+  PERFFASPECT()
   static void deallocate(TypeInValue* data, AMSResourceType dev)
   {
     RMAllocators[dev]->deallocate(data);
@@ -104,6 +106,7 @@ public:
    *  @param[in] dev resource to register the memory to.
    *  @return void.
    */
+  PERFFASPECT()
   static void registerExternal(void* ptr, size_t nBytes, AMSResourceType dev)
   {
     RMAllocators[dev]->registerPtr(ptr, nBytes);
